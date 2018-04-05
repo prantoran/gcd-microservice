@@ -1,0 +1,17 @@
+FROM golang:1.9.1
+
+# Change this path!
+WORKDIR /go/src/github.com/prantoran/gcd-grpc/cli
+COPY cli .
+COPY pb ../pb
+COPY vendor ../vendor
+
+RUN go get -v ./...
+
+# Generating gcd executable in $GOBIN directory
+# The name of the executable takes the name of the folder containing the main package
+RUN go install -v ./...
+
+EXPOSE 3030
+
+CMD [ "cli" ]
